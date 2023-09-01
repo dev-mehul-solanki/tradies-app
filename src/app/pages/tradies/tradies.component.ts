@@ -36,7 +36,7 @@ export class TradiesComponent implements OnInit {
     this.fetchTrades();
   }
 
-  async fetchTrades() {
+  fetchTrades() {
     this.tradiesService.getTrades().subscribe(
       (response: any) => {
         this.store.dispatch(fetchTradesSuccess({ trades: response }));
@@ -61,13 +61,17 @@ export class TradiesComponent implements OnInit {
 
     this.tradies = this.tradies.pipe(
       map((tradies) => {
-        const filteredTradies = tradies.filter((trady) => {
-          const isMatch = trady.workTypeArr.includes(subTradeName.toLowerCase());
-          console.log('Checking Tradie:', trady.tradingName, 'Match:', isMatch);
-          return isMatch;
-        });
-        console.log('Filtered Tradies:', filteredTradies);
-        return filteredTradies;
+        if (tradies != undefined) {
+          const filteredTradies = tradies.filter((trady) => {
+            const isMatch = trady.workTypeArr.includes(subTradeName.toLowerCase());
+            console.log('Checking Tradie:', trady.tradingName, 'Match:', isMatch);
+            return isMatch;
+          });
+          console.log('Filtered Tradies:', filteredTradies);
+          return filteredTradies;
+        } else {
+          return [];
+        }
       })
     );
   }
@@ -92,11 +96,11 @@ export class TradiesComponent implements OnInit {
     });
   }
 
-  async resetAll() {
+  resetAll() {
     this.selectedTrade = of('Carpenter');
     this.selectedSubTrade = of('');
     this.searchLocation = '';
-    await this.fetchTrades();
+    this.tradies = this.store.select(selectTradies);
     this.searchTradies();
   }
 }
