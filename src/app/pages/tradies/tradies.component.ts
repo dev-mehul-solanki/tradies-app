@@ -34,6 +34,7 @@ export class TradiesComponent implements OnInit {
     this.selectedTrade = of('Carpenter');
     this.selectedSubTrade = of('');
     this.fetchTrades();
+    this.searchTradies();
   }
 
   fetchTrades() {
@@ -50,6 +51,7 @@ export class TradiesComponent implements OnInit {
 
   selectTrade(tradeName: string) {
     this.selectedTrade = of(tradeName);
+    this.searchTradies();
   }
 
   getSelectedTrade(trades: any[] | null, selectedTradeName: string): any | undefined {
@@ -58,16 +60,14 @@ export class TradiesComponent implements OnInit {
 
   selectSubTrade(subTradeName: string) {
     this.selectedSubTrade = of(subTradeName);
-
+    this.tradies = this.store.select(selectTradies);
     this.tradies = this.tradies.pipe(
       map((tradies) => {
         if (tradies != undefined) {
           const filteredTradies = tradies.filter((trady) => {
             const isMatch = trady.workTypeArr.includes(subTradeName.toLowerCase());
-            console.log('Checking Tradie:', trady.tradingName, 'Match:', isMatch);
             return isMatch;
           });
-          console.log('Filtered Tradies:', filteredTradies);
           return filteredTradies;
         } else {
           return [];
