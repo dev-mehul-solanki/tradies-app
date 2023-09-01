@@ -1,0 +1,241 @@
+<div class="container">
+
+  <div class="item" *ngFor="let trade of trades | async">
+    <button (click)="selectTrade(trade.name)" class="tradeIcon"
+      [class.selected]="trade.name === (selectedTrade | async)">
+      <img class="tradeImg" src="{{ trade.svg }}" alt="SVG Image">
+      <span class="trade-name">{{ trade.name }}</span>
+    </button>
+  </div>
+
+
+</div>
+
+<div class="container" *ngIf="(selectedTrade | async) as selectedTrade">
+  <ng-container *ngIf="getSelectedTrade(trades | async, selectedTrade)">
+    <button class="sub-trades-chips" (click)="selectSubTrade(subTrade)"
+      [class.selectedSub]="subTrade === (selectedSubTrade | async)"
+      *ngFor="let subTrade of getSelectedTrade(trades | async, selectedTrade)?.subTrade || []"> {{ subTrade }}
+      <span style="width: 1.0625rem;height: 1.0625rem;" *ngIf="subTrade === (selectedSubTrade | async)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none">
+          <g clip-path="url(#clip0_0_664)">
+            <path
+              d="M6.96691 12.3133L3.99191 9.33826L3.00024 10.3299L6.96691 14.2966L15.4669 5.7966L14.4752 4.80493L6.96691 12.3133Z"
+              fill="white" />
+          </g>
+          <defs>
+            <clipPath id="clip0_0_664">
+              <rect width="17" height="17" fill="white" transform="translate(0.000244141 0.804932)" />
+            </clipPath>
+          </defs>
+        </svg>
+      </span>
+    </button>
+  </ng-container>
+</div>
+
+<div class="container" style="border: none;padding: 0;">
+  <div class="searchArea">
+    <div>
+      <span class="locationIcon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
+          fill="none">
+          <g clip-path="url(#clip0_0_799)">
+            <path
+              d="M10.2396 10.0124C9.36875 10.0124 8.65625 9.29987 8.65625 8.42904C8.65625 7.5582 9.36875 6.8457 10.2396 6.8457C11.1104 6.8457 11.8229 7.5582 11.8229 8.42904C11.8229 9.29987 11.1104 10.0124 10.2396 10.0124ZM14.9896 8.58737C14.9896 5.71362 12.8917 3.67904 10.2396 3.67904C7.5875 3.67904 5.48958 5.71362 5.48958 8.58737C5.48958 10.4399 7.03333 12.894 10.2396 15.8232C13.4458 12.894 14.9896 10.4399 14.9896 8.58737ZM10.2396 2.0957C13.5646 2.0957 16.5729 4.64487 16.5729 8.58737C16.5729 11.2157 14.4592 14.327 10.2396 17.929C6.02 14.327 3.90625 11.2157 3.90625 8.58737C3.90625 4.64487 6.91458 2.0957 10.2396 2.0957Z"
+              fill="#222222" />
+          </g>
+          <defs>
+            <clipPath id="clip0_0_799">
+              <rect width="19" height="19" fill="white" transform="translate(0.738281 0.511719)" />
+            </clipPath>
+          </defs>
+        </svg></span>
+      <input class="customeInput" name="location" placeholder="Search by location" [(ngModel)]="searchLocation" />
+    </div>
+    <div (click)="searchTradies()" style="cursor: pointer;">
+      <span class="searchIcon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M9.15999 8.28874H9.72188L13.2708 11.8451L12.2111 12.9048L8.65507 9.35564V8.79374L8.46303 8.59459C7.65229 9.29163 6.59965 9.71127 5.45463 9.71127C2.90137 9.71127 0.831787 7.64149 0.831787 5.08806C0.831787 2.53462 2.90137 0.464844 5.45463 0.464844C8.00789 0.464844 10.0775 2.53462 10.0775 5.08806C10.0775 6.23319 9.65784 7.28586 8.96087 8.0967L9.15999 8.28874ZM2.2542 5.08806C2.2542 6.8591 3.6837 8.28874 5.45463 8.28874C7.22557 8.28874 8.65507 6.8591 8.65507 5.08806C8.65507 3.31701 7.22557 1.88737 5.45463 1.88737C3.6837 1.88737 2.2542 3.31701 2.2542 5.08806Z"
+            fill="white" />
+        </svg>
+      </span>
+      <button class="customeButton">Search</button>
+    </div>
+    <span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="2" height="22" viewBox="0 0 2 22" fill="none">
+        <line x1="0.901123" y1="21.9473" x2="0.901124" y2="0.511719" stroke="#E0E0E0" />
+      </svg>
+    </span>
+    <span class="reset" (click)="resetAll()">Reset All</span>
+  </div>
+</div>
+
+<div *ngIf="tradies | async as tradesData" class="container-card">
+<ng-container *ngIf="tradesData.length > 0; else noTrades">
+  <span class="tradiesCount">100+ Tradies Available</span>
+    <div class="card" *ngFor="let trade of tradies | async">
+      <div class="card-content">
+        <div class="row">
+          <div class="avtar">
+            <img src="/assets/image/Group@4x 20.png" alt="logo" />
+          </div>
+          <span class="tradies-name">{{trade.firstName}} {{trade.lastName}}</span>
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path
+                d="M7.95544 11.2498L7.69111 11.0852L7.42679 11.2498L4.14588 13.2931L5.02222 9.41686L5.0871 9.1299L4.86776 8.93383L1.93299 6.3104L5.78097 5.97352L6.08421 5.94698L6.19987 5.6654L7.69112 2.03475L9.18236 5.6654L9.29802 5.94698L9.60126 5.97352L13.4492 6.3104L10.5145 8.93383L10.2951 9.1299L10.36 9.41686L11.2364 13.2931L7.95544 11.2498Z"
+                stroke="#FFCC34" />
+            </svg>
+          </div>
+          <span class="badge">4.4</span>
+        </div>
+        <div class="row mt-108">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <g clip-path="url(#clip0_0_56)">
+                <path
+                  d="M11.1562 8.71484V4.46484L9.03125 2.33984L6.90625 4.46484V5.88151H2.65625V15.7982H15.4062V8.71484H11.1562ZM5.48958 14.3815H4.07292V12.9648H5.48958V14.3815ZM5.48958 11.5482H4.07292V10.1315H5.48958V11.5482ZM5.48958 8.71484H4.07292V7.29818H5.48958V8.71484ZM9.73958 14.3815H8.32292V12.9648H9.73958V14.3815ZM9.73958 11.5482H8.32292V10.1315H9.73958V11.5482ZM9.73958 8.71484H8.32292V7.29818H9.73958V8.71484ZM9.73958 5.88151H8.32292V4.46484H9.73958V5.88151ZM13.9896 14.3815H12.5729V12.9648H13.9896V14.3815ZM13.9896 11.5482H12.5729V10.1315H13.9896V11.5482Z"
+                  fill="#595959" />
+              </g>
+              <defs>
+                <clipPath id="clip0_0_56">
+                  <rect width="17" height="17" fill="white" transform="translate(0.53125 0.923828)" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <span class="distance">{{trade.distance}} kms from {{trade.address}}</span>
+        </div>
+        <div class="row mt-052">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <g clip-path="url(#clip0_0_51)">
+                <path
+                  d="M9.02865 1.69141C6.2874 1.69141 4.07031 3.90849 4.07031 6.64974C4.07031 10.3685 9.02865 15.8581 9.02865 15.8581C9.02865 15.8581 13.987 10.3685 13.987 6.64974C13.987 3.90849 11.7699 1.69141 9.02865 1.69141ZM9.02865 8.42057C8.05115 8.42057 7.25781 7.62724 7.25781 6.64974C7.25781 5.67224 8.05115 4.87891 9.02865 4.87891C10.0061 4.87891 10.7995 5.67224 10.7995 6.64974C10.7995 7.62724 10.0061 8.42057 9.02865 8.42057Z"
+                  fill="#595959" />
+              </g>
+              <defs>
+                <clipPath id="clip0_0_51">
+                  <rect width="17" height="17" fill="white" transform="translate(0.53125 0.273438)" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <span class="location">Queensland, QLD</span>
+        </div>
+        <div class="row mt-052">
+          <div class="licensed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <g clip-path="url(#clip0_0_21)">
+                <path
+                  d="M8.03125 1.87109C4.58125 1.87109 1.78125 4.67109 1.78125 8.12109C1.78125 11.5711 4.58125 14.3711 8.03125 14.3711C11.4812 14.3711 14.2812 11.5711 14.2812 8.12109C14.2812 4.67109 11.4812 1.87109 8.03125 1.87109ZM8.03125 13.1211C5.275 13.1211 3.03125 10.8773 3.03125 8.12109C3.03125 5.36484 5.275 3.12109 8.03125 3.12109C10.7875 3.12109 13.0312 5.36484 13.0312 8.12109C13.0312 10.8773 10.7875 13.1211 8.03125 13.1211ZM10.9 5.35859L6.78125 9.47734L5.1625 7.86484L4.28125 8.74609L6.78125 11.2461L11.7812 6.24609L10.9 5.35859Z"
+                  fill="#32C438" />
+              </g>
+              <defs>
+                <clipPath id="clip0_0_21">
+                  <rect width="15" height="15" fill="white" transform="translate(0.53125 0.621094)" />
+                </clipPath>
+              </defs>
+            </svg>
+            <span class="distance">Licensed</span>
+          </div>
+          <div class="licensed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <g clip-path="url(#clip0_0_21)">
+                <path
+                  d="M8.03125 1.87109C4.58125 1.87109 1.78125 4.67109 1.78125 8.12109C1.78125 11.5711 4.58125 14.3711 8.03125 14.3711C11.4812 14.3711 14.2812 11.5711 14.2812 8.12109C14.2812 4.67109 11.4812 1.87109 8.03125 1.87109ZM8.03125 13.1211C5.275 13.1211 3.03125 10.8773 3.03125 8.12109C3.03125 5.36484 5.275 3.12109 8.03125 3.12109C10.7875 3.12109 13.0312 5.36484 13.0312 8.12109C13.0312 10.8773 10.7875 13.1211 8.03125 13.1211ZM10.9 5.35859L6.78125 9.47734L5.1625 7.86484L4.28125 8.74609L6.78125 11.2461L11.7812 6.24609L10.9 5.35859Z"
+                  fill="#32C438" />
+              </g>
+              <defs>
+                <clipPath id="clip0_0_21">
+                  <rect width="15" height="15" fill="white" transform="translate(0.53125 0.621094)" />
+                </clipPath>
+              </defs>
+            </svg>
+            <span class="distance">ABN</span>
+          </div>
+        </div>
+        <div class="row mt-099">
+          <div class="workType">
+            <button class="workTypeText" *ngFor="let work of trade.workTypeArr">{{work}}</button>
+            <!-- <button class="workTypeText">Commercial</button>
+            <button class="workTypeText">Garages</button>
+            <button class="workTypeText">Civil works management</button> -->
+          </div>
+        </div>
+        <div class="row mt-283">
+          <ng-container *ngIf="trade.workImages.length">
+            <div class="imgBlock">
+              <img src="/assets/image/ranurte-XhyYZmnCDXk-unsplash 14.png" alt="logo" />
+              <img src="/assets/image/ranurte-XhyYZmnCDXk-unsplash 15.png" alt="logo" />
+              <img src="/assets/image/ranurte-XhyYZmnCDXk-unsplash 18.png" alt="logo" />
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!trade.workImages.length">
+            <div class="userDetail">
+              <div class="mainHeading">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <g clip-path="url(#clip0_0_993)">
+                    <path
+                      d="M0.903809 8.7487V15.832H4.44548V11.582H7.27881V15.832H10.8205V8.7487L5.86214 5.20703L0.903809 8.7487Z"
+                      fill="#595959" />
+                    <path
+                      d="M7.27881 3.08203V4.47745L12.2371 8.01911V8.7487H13.6538V10.1654H12.2371V11.582H13.6538V12.9987H12.2371V15.832H16.4871V3.08203H7.27881ZM13.6538 7.33203H12.2371V5.91536H13.6538V7.33203Z"
+                      fill="#595959" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_0_993">
+                      <rect width="17" height="17" fill="white" transform="translate(0.195801 0.957031)" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <span class="headText">Job types</span>
+              </div>
+              <div class="subHead">
+                {{trade.workTypeArr | formattedArray}}
+              </div>
+              <div class="mainHeading">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="13" viewBox="0 0 18 13" fill="none">
+                  <g clip-path="url(#clip0_0_1003)">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M12.7688 7.81289C13.7669 7.81289 14.5986 7.09061 14.84 6.12012H10.6976C10.9391 7.09061 11.7708 7.81289 12.7688 7.81289Z"
+                      fill="#595959" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M10.4841 5.55588H15.0612C15.206 5.55588 15.3241 5.43172 15.3241 5.27939V5.26811C15.3241 5.11576 15.206 4.99163 15.0612 4.99163H14.9163C14.9163 4.15653 14.4817 3.43993 13.8431 3.04496V3.581C13.8431 3.73898 13.7251 3.86312 13.5748 3.86312C13.4246 3.86312 13.3065 3.73898 13.3065 3.581V2.81361C13.1348 2.76847 12.9578 2.73462 12.7699 2.73462C12.5821 2.73462 12.4051 2.76847 12.2334 2.81361V3.581C12.2334 3.73898 12.1153 3.86312 11.9651 3.86312C11.8148 3.86312 11.6968 3.73898 11.6968 3.581V3.04496C11.0582 3.43993 10.6236 4.15653 10.6236 4.99163H10.4841C10.3392 4.99163 10.2212 5.11576 10.2212 5.26811V5.28504C10.2212 5.43172 10.3392 5.55588 10.4841 5.55588Z"
+                      fill="#595959" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M11.2953 12.247H17.0635V11.1451C17.0635 9.67965 14.2035 8.94141 12.7708 8.94141C12.4183 8.94141 11.9794 8.98613 11.518 9.07533C12.1247 9.51672 12.5188 10.0555 12.5188 10.6913V12.247L11.2953 12.247Z"
+                      fill="#595959" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M5.9243 6.91786C7.10256 6.91786 8.08443 6.06516 8.36947 4.91943H3.47913C3.76417 6.06516 4.74604 6.91786 5.9243 6.91786Z"
+                      fill="#595959" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M3.22699 4.25339H8.63053C8.80154 4.25339 8.9409 4.10682 8.9409 3.92699V3.91366C8.9409 3.73381 8.80154 3.58726 8.63053 3.58726H8.45947C8.45947 2.60139 7.9464 1.75539 7.19255 1.2891V1.92193C7.19255 2.10844 7.05319 2.25499 6.87581 2.25499C6.69843 2.25499 6.55906 2.10844 6.55906 1.92193V1.01598C6.35636 0.962698 6.14734 0.922729 5.92558 0.922729C5.70387 0.922729 5.49485 0.962698 5.29215 1.01598V1.92193C5.29215 2.10844 5.15278 2.25499 4.9754 2.25499C4.79802 2.25499 4.65866 2.10844 4.65866 1.92193V1.2891C3.90481 1.75539 3.39174 2.60139 3.39174 3.58726H3.22699C3.05599 3.58726 2.91663 3.73381 2.91663 3.91366V3.93365C2.91663 4.10682 3.05599 4.25339 3.22699 4.25339Z"
+                      fill="#595959" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M0.562988 10.9148C0.562988 9.14284 4.13799 8.25024 5.92884 8.25024C7.71969 8.25024 11.2947 9.14284 11.2947 10.9148V12.2471H0.562988V10.9148Z"
+                      fill="#595959" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_0_1003">
+                      <rect width="17" height="11.9" fill="white" transform="translate(0.195801 0.427734)" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <span class="headText">Resources</span>
+              </div>
+              <div class="subHead">
+                {{trade.crewMakeUp | keyValueFormat}}
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+</ng-container>
+</div>
+
+<ng-template #noTrades>
+  <div>No trades available.</div>
+</ng-template>

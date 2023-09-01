@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+html {
+  box-sizing: border-box
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit
+}
+
+
+.unUsedRoutes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10rem;
+  color: #222;
+  font-family: Roboto;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 151.688%;
+}

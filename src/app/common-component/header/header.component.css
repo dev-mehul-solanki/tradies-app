@@ -1,0 +1,128 @@
+.container {
+    background: #FFFFFF;
+    width: 100%;
+
+    .nav-bar {
+        width: auto;
+        display: flex;
+        flex-direction: row;
+        border-bottom: 0.0625rem solid #E2E2E2;
+
+        .link {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 2.77rem;
+
+            .job-count {
+                position: absolute;
+                top: 0;
+                left: 1.3rem;
+                border-radius: 3.625rem;
+                background: #cc1016;
+                width: 1.12488rem;
+                height: 1.12488rem;
+                text-align: center;
+                color: #FFF;
+                text-align: center;
+                font-size: 0.75rem;
+                font-style: normal;
+                font-weight: 700;
+                line-height: normal;
+            }
+        }
+
+        .button-section {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            width: auto;
+
+            .post-button {
+                width: 8.875rem;
+                height: 2.4375rem;
+                padding: 0.3125rem 0.4375rem;
+                border-radius: 2.75rem;
+                background: #611F69;
+                color: #FFF;
+                font-size: 1rem;
+                font-style: normal;
+                font-weight: 500;
+                line-height: normal;
+            }
+
+            .chat {
+                margin-left: 2.37rem;
+
+                .chat-count {
+                    position: absolute;
+                    width: 1.12488rem;
+                    height: 1.12488rem;
+                    border-radius: 3.625rem;
+                    background: #cc1016;
+                    color: #FFF;
+                    font-size: 0.75rem;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: normal;
+                    text-align: center;
+                    display: inline-block;
+                    top: 1.2rem;
+                    right: 10rem;
+                }
+            }
+        }
+    }
+
+
+}
+
+a {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1.13rem;
+    text-decoration: none;
+    position: relative;
+
+    .linkLable {
+        color: #565656;
+        text-align: center;
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        margin-top: 0.33rem;
+        margin-bottom: 0.36rem;
+    }
+}
+
+.active::after {
+    content: "";
+    width: 4.91713rem;
+    height: 0.21825rem;
+    border-radius: 0.0625rem;
+    background: #009AE0;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0.36rem;
+}
+
+.avtar {
+    width: 3.11463rem;
+    height: 3.12338rem;
+    flex-shrink: 0;
+    border-radius: 3.625rem;
+    margin-left: 2.61rem;
+    margin-right: 3.94rem;
+}
+
+button {
+    border: none;
+}
